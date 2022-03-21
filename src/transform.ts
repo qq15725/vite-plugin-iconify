@@ -16,7 +16,7 @@ export async function transformComponent (source: string, id: string, ctx: Resol
     const componentNameRE = `(?:_component_${ toSnakeCase(component) }|\\$setup\\["${ toPascalCase(component) }"\\])`
     const componentPropNameRE = `(${ props.map(toKebabCase).map(v => v.indexOf('-') > -1 ? `"${ v }"` : v).join('|') })`
     const matchAllRE = new RegExp(
-      `_createVNode\\(${componentNameRE}, .*?{.*?${componentPropNameRE}: (.+?)([,|}].*?\\))`,
+      `_create(?:VNode|Block)\\(${componentNameRE}, .*?{.*?${componentPropNameRE}: (.+?)([,|}].*?\\))`,
       'gs'
     )
     for (const match of source.matchAll(matchAllRE)) {

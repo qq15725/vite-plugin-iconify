@@ -8,6 +8,7 @@ export default defineConfig({
     vue(),
     Iconify({
       replaceableProps: [
+        { component: 'VButton', props: ['prependIcon'] },
         { component: 'VIcon', props: ['icon'] },
       ]
     }),
