@@ -13,7 +13,7 @@ export async function transformComponent (source: string, id: string, ctx: Resol
   let no = -1
   const s = new MagicString(source)
   for (const { component, props } of ctx.replaceableProps) {
-    const componentNameRE = `_component_${ toSnakeCase(component) }`
+    const componentNameRE = `(?:_component_${ toSnakeCase(component) }|\\$setup\\["${ toPascalCase(component) }"\\])`
     const componentPropNameRE = `(${ props.map(toKebabCase).map(v => v.indexOf('-') > -1 ? `"${ v }"` : v).join('|') })`
     const matchAllRE = new RegExp(
       `_createVNode\\(${componentNameRE}, .*?{.*?${componentPropNameRE}: (.+?)([,|}].*?\\))`,

@@ -24,9 +24,10 @@ export default function iconsPlugin (userOptions?: Options): PluginOption {
       return VIRTUAL_ID_RE.test(id) ? id : null
     },
     async load (id) {
-      const [_, matched] = id.match(VIRTUAL_ID_RE)!
-      if (!matched) {
-        const [_, collection, name] = matched.split('/', 3)
+      const matched = id.match(VIRTUAL_ID_RE)
+      if (!matched) return
+      if (matched[1]) {
+        const [_, collection, name] = matched[1].split('/', 3)
         let source = await loadNodeIcon(collection, name)
         if (!source) throw new Error(`Icon \`${ collection }:${ name }\` not found`)
         return {
