@@ -1,6 +1,6 @@
 # Vite 图标插件
 
-[![NPM version](https://img.shields.io/npm/v/vite-plugin-iconify?color=a1b858&label=)](https://www.npmjs.com/package/qq15725/vite-plugin-iconify)
+[![NPM version](https://img.shields.io/npm/v/vite-plugin-iconify?color=a1b858&label=)](https://www.npmjs.com/package/vite-plugin-iconify)
 
 按需导入图标作为组件。
 
