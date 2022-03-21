@@ -1,0 +1,66 @@
+{
+  "name": "vite-plugin-iconify",
+  "version": "0.0.1",
+  "description": "A Vite Plugin for icons",
+  "keywords": [
+    "icons",
+    "iconify",
+    "vite-plugin",
+    "vite-plugin-iconify"
+  ],
+  "homepage": "https://github.com/qq15725/vite-plugin-iconify",
+  "bugs": {
+    "url": "https://github.com/qq15725/vite-plugin-iconify/issues"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/qq15725/vite-plugin-iconify.git"
+  },
+  "author": "wxm",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "client.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs"
+    },
+    "./*": "./*"
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "unbuild",
+    "stub": "unbuild --stub"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "dependencies": {
+    "@iconify/utils": "^1.0.23",
+    "@veno-ui/utils": "^0.4.11",
+    "fast-glob": "^3.2.11",
+    "local-pkg": "^0.4.1",
+    "magic-string": "^0.26.1",
+    "svgo": "^2.8.0"
+  },
+  "devDependencies": {
+    "@iconify/types": "^1.0.12",
+    "@types/debug": "^4.1.7",
+    "@types/minimatch": "^3.0.5",
+    "@types/svgo": "^2.6.1",
+    "unbuild": "^0.7.0",
+    "vite": "^2.8.6",
+    "vue": "^3.2.31"
+  },
+  "peerDependencies": {
+    "vite": "^2.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
