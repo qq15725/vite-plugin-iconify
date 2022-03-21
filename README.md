@@ -87,7 +87,19 @@ import Iconify from 'vite-plugin-iconify'
 export default defineConfig({
   plugins: [
     Iconify({
-      // 选项
+      // 这些匹配的文件将会搜索组件属性做替换
+      include: [
+        /\.vue$/, /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
+      // 可替换并注入的组件属性
+      replaceableProps: [
+        // 预设的 UI 库
+        // 对应一组自定义配置
+        'veno-ui',
+        // 自定义
+        { component: 'VIcon', props: ['icon'] },
+      ]
     }),
     Vue()
   ],
