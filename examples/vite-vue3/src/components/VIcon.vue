@@ -1,11 +1,31 @@
 <script setup lang="ts">
-  defineProps<{ icon: Object }>()
+  // Utils
+  import { computed } from 'vue'
+
+  // Compositions
+  import { useIcons } from '../compositions/icons'
+
+  const props = defineProps<{
+    icon?: string | object
+  }>()
+
+  const icons = useIcons()
+
+  const componentIcon = computed(() => {
+    if (!props.icon) return
+
+    if (typeof props.icon === 'string' && props.icon in icons.aliases) {
+      return icons.aliases[props.icon]
+    }
+
+    return props.icon
+  })
 </script>
 
 <template>
   <i class="v-icon">
     <slot>
-      <component :is="icon" />
+      <component :is="componentIcon" />
     </slot>
   </i>
 </template>
