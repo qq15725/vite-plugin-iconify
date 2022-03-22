@@ -1,6 +1,21 @@
 # Vue3 在 Vite 上组件按需使用图标资源的一种解决方案
 
-假设首先封装了一个 `v-icon` 组件。
+需要最后达到的使用目的
+
+```vue
+<!-- 引入 mdi 下的 account 图标作为图标 -->
+<v-icon icon="mdi-account" />
+
+<!-- 引入 src/icons/dashboard.svg 自定义图标作为图标 -->
+<v-icon icon="dashboard" />
+
+<!-- 引入 mdi 下的 arrow-up-bold-circle 图标作为前置按钮图标 -->
+<v-button prepend-icon="mdi-arrow-up-bold-circle">按钮</v-button>
+```
+
+## VIcon 组件
+
+假设我们首先封装一个 `v-icon` 组件在 `src/components/VIcon.vue` 。
 
 ```vue
 <template>
@@ -52,7 +67,7 @@
 
 这在单纯使用 `v-icon` 组件的时候没什么问题，但是如果基于 `v-icon` 封装其他组件，再使用就会有点繁琐。
 
-例如我们封装一个 `v-button` ，并添加一个前置图标的插槽，代码如：
+例如我们封装一个 `v-button` 在 `src/components/VButton.vue` ，并添加一个前置图标的插槽，代码如：
 
 ```vue
 <template>
@@ -375,4 +390,4 @@ app.mount('#app')
 
 ## 示例代码
 
-所有示例代码完整代码查看 [examples/vite-vue3](https://github.com/qq15725/vite-plugin-iconify/blob/master/examples/vite-vue3) ，详细配置和用法查看 [vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 。
+示例完整代码查看 [examples/vite-vue3](https://github.com/qq15725/vite-plugin-iconify/blob/master/examples/vite-vue3) ，详细配置和用法查看 [vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 。
