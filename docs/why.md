@@ -145,6 +145,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
 这一过程我封装了一个 [vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 插件，如上述只需要配置 `replaceableProps` 。
 
 ```js
+// vite.config.ts
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import Iconify from 'vite-plugin-iconify'
@@ -167,7 +168,7 @@ export default defineConfig({
 
 ```vue
 <script setup lang="ts">
-  defineProps<{ icon: Object }>()
+  defineProps<{ icon?: object }>()
 </script>
 
 <template>
@@ -199,7 +200,7 @@ export default defineConfig({
 <script setup lang="ts">
   import VIcon from './VIcon.vue'
 
-  defineProps<{ prependIcon: Object }>()
+  defineProps<{ prependIcon?: object }>()
 </script>
 
 <template>
@@ -235,12 +236,143 @@ export default defineConfig({
 
 ## 根据文件目录导入自定义图标
 
-在以往的习惯用法中，我们通常喜欢下载 `svg` 文件到某个目录作为自定义图标载入，[vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 也支持了，默认会载入 `src/icons` 目录中 `.svg` 后缀的文件，通过 `~icons` 导入。
+在以往的习惯用法中，我们通常喜欢下载 `svg` 文件到某个目录作为自定义图标载入，[vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 也支持了，默认会载入 `src/icons` 目录中 `.svg` 后缀的文件，通过 `~icons` 导入组件集。
+
+那如何将自定义图标结合 `v-icon` 使用呢，新增文件如下:
+
+```svg
+// src/icons/dashboard.svg
+<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M168.106667 621.44l120.746666 57.962667 223.274667 108.138666 215.317333-104.32 128.768-61.674666a64 64 0 0 1-29.952 84.970666l-286.229333 138.624a64 64 0 0 1-55.808 0L197.994667 706.517333A64 64 0 0 1 168.106667 621.44z m687.829333-133.930667a64 64 0 0 1-29.674667 85.546667L540.010667 711.68a64 64 0 0 1-55.808 0L197.994667 573.056A64 64 0 0 1 166.826667 490.88l317.013333 149.525333 28.288 13.696 286.229333-138.624-0.149333-0.064 57.728-27.882666zM540.032 185.792l286.208 138.602667a64 64 0 0 1 0 115.2l-286.208 138.624a64 64 0 0 1-55.808 0L197.994667 439.594667a64 64 0 0 1 0-115.2L484.224 185.813333a64 64 0 0 1 55.808 0z m-27.904 57.6l-286.229333 138.602667 286.229333 138.624 286.229333-138.624-286.229333-138.602667z"></path></svg>
+```
+
+我们想通过简单指定 `icon="dashboard"` 就能使用
+
+```vue
+<v-icon icon="dashboard" />
+```
+
+这里提供一个使用方式
+
+首先我们创建一个 `icons` 的组合式 API
+
+```ts
+// src/compositions/icons.ts
+
+// Utils
+import { inject } from 'vue'
+
+// Types
+import type { InjectionKey, DefineComponent } from 'vue'
+
+export interface IconsInstance
+{
+  /**
+   * @zh 所有图标的别名
+   */
+  aliases: Record<string, DefineComponent>
+}
+
+export const IconsKey: InjectionKey<IconsInstance> = Symbol.for('app:icons')
+
+/**
+ * @zh 创建图标集
+ *
+ * @param options
+ */
+export function createIcons (options: IconsInstance) {
+  return options
+}
+
+/**
+ * @zh 使用图标集
+ */
+export function useIcons () {
+  const icons = inject(IconsKey)
+  if (!icons) throw new Error('Could not find icons instance')
+  return icons
+}
+```
+
+在 `main.ts` 中全局注册提供者
+
+```ts
+// Utils
+import { createApp } from 'vue'
+import App from './App.vue'
+
+// Icons
+import icons from '~icons'
+
+// Compositions
+import { createIcons, IconsKey } from './compositions/icons'
+
+const app = createApp(App)
+
+app.provide(IconsKey, createIcons({
+  aliases: icons
+}))
+
+app.mount('#app')
+```
+
+修改 `v-icon` 组件如下
+
+```vue
+<script setup lang="ts">
+  // src/components/VIcon.vue
+  
+  // Utils
+  import { computed } from 'vue'
+
+  // Compositions
+  import { useIcons } from '../compositions/icons'
+
+  const props = defineProps<{
+    icon?: string | object
+  }>()
+
+  const icons = useIcons()
+
+  const componentIcon = computed(() => {
+    if (!props.icon) return
+
+    if (typeof props.icon === 'string' && props.icon in icons.aliases) {
+      return icons.aliases[props.icon]
+    }
+
+    return props.icon
+  })
+</script>
+
+<template>
+  <i class="v-icon">
+    <slot>
+      <component :is="componentIcon" />
+    </slot>
+  </i>
+</template>
+
+<style scoped>
+  .v-icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    font-size: 1em;
+  }
+
+  .v-icon > svg {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+```
+
+你就可以愉快的这样使用了
+
+```vue
+<v-icon icon="dashboard" />
+```
 
 ## 示例代码
 
 所有示例代码参考 [examples/vite-vue3](https://github.com/qq15725/vite-plugin-iconify/blob/master/examples/vite-vue3) ，用法 [vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 。
-
-## 最后
-
-仅提供一种 UI 库的图标解决思路。
