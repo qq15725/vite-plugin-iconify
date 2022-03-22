@@ -10,6 +10,7 @@
   <v-icon><icon-mdi-delete /></v-icon>
   <v-icon icon="dashboard" />
   <v-icon icon="settings" />
+  <v-icon icon="tabler-brand-github" />
 </template>
 
 <style>

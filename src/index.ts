@@ -28,8 +28,8 @@ export default function iconsPlugin (userOptions?: Options): PluginOption {
       if (!matched) return
       if (matched[1]) {
         const [_, collection, name] = matched[1].split('/', 3)
-        let source = await loadNodeIcon(collection, name)
-        if (!source) throw new Error(`Icon \`${ collection }:${ name }\` not found`)
+        let source = await loadNodeIcon(collection, name, ctx.iconifyLoaderOptions)
+        if (!source) throw new Error(`[vite-plugin-iconify] Icon \`${ id }\` not found`)
         return {
           code: await transformIcon(source, `${ collection }-${ name }`, ctx),
           map: { version: 3, mappings: '', sources: [] } as any,

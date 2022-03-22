@@ -10,7 +10,10 @@ export default defineConfig({
       replaceableProps: [
         { component: 'VButton', props: ['prependIcon'] },
         { component: 'VIcon', props: ['icon'] },
-      ]
+      ],
+      iconifyLoaderOptions: {
+        autoInstall: true,
+      },
     }),
   ]
 })

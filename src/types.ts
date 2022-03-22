@@ -1,4 +1,5 @@
 import type { FilterPattern } from '@veno-ui/utils'
+import type { IconifyLoaderOptions } from '@iconify/utils/lib/loader/types'
 import type { OptimizeOptions } from 'svgo'
 import type { PresetName } from './presets'
 
@@ -52,8 +53,14 @@ export interface Options
   deep?: boolean
 
   /**
+   * @zh 传递给 Iconify Loader 的选项
+   * @en Options passed to Iconify Loader
+   */
+  iconifyLoaderOptions?: IconifyLoaderOptions
+
+  /**
    * @zh 传递给 svgo 的选项
-   * @en Options passed to Svgo
+   * @en Options passed to svgo
    *
    * @default { plugins: ['preset-default', 'removeViewBox', 'removeDimensions'] }
    */
