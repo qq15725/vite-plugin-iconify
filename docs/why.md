@@ -375,4 +375,4 @@ app.mount('#app')
 
 ## 示例代码
 
-所有示例代码参考 [examples/vite-vue3](https://github.com/qq15725/vite-plugin-iconify/blob/master/examples/vite-vue3) ，用法 [vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 。
+所有示例代码完整代码查看 [examples/vite-vue3](https://github.com/qq15725/vite-plugin-iconify/blob/master/examples/vite-vue3) ，详细配置和用法查看 [vite-plugin-iconify](https://github.com/qq15725/vite-plugin-iconify) 。
