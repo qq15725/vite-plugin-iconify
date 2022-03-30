@@ -5,6 +5,7 @@ import { DISABLE_COMMENT, VIRTUAL_ID } from './constants'
 import { relative } from 'path'
 import { importModule } from 'local-pkg'
 import { optimize } from 'svgo'
+import { hasCollection } from './collections'
 
 // Types
 import type { ResolvedOptions } from './types'
@@ -27,7 +28,7 @@ export async function transformComponent (source: string, id: string, ctx: Resol
         const subMatched = subMatch[1] || subMatch[2]
         const [collection] = subMatched.split('-', 1) || []
         const icon = subMatched.substring(collection.length + 1)
-        if (subMatch.index != null && collection && icon) {
+        if (subMatch.index != null && collection && hasCollection(collection) && icon) {
           const start = startOffset + subMatch.index
           const end = start + subMatched.length + 2
           const component = `__vite_plugin_iconify_${ ++no }`
