@@ -1,6 +1,6 @@
 import type { FilterPattern } from '@veno-ui/utils'
 import type { IconifyLoaderOptions } from '@iconify/utils/lib/loader/types'
-import type { OptimizeOptions } from 'svgo'
+import type { Config } from 'svgo'
 import type { PresetName } from './presets'
 
 export type ComponentProps = { component: string, props: string[] }
@@ -64,7 +64,7 @@ export interface Options
    *
    * @default { plugins: ['preset-default', 'removeViewBox', 'removeDimensions'] }
    */
-  svgoOptions?: OptimizeOptions
+  svgoOptions?: Config
 }
 
 

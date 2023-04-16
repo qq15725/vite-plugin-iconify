@@ -1,6 +1,6 @@
 // Utils
 import { deepMerge, wrapInArray } from '@veno-ui/utils'
-import { join, resolve } from 'path'
+import { join, resolve } from 'node:path'
 
 // Presets
 import { presets } from './presets'
@@ -25,11 +25,11 @@ const DEFAULT_OPTIONS: Options = {
 /**
  * @param str
  */
-function slash (str: string) {
+function slash(str: string) {
   return str.replace(/\\/g, "/")
 }
 
-export function resolveOptions (userOptions: Options, root: string) {
+export function resolveOptions(userOptions: Options, root: string) {
   const resolved = deepMerge(DEFAULT_OPTIONS, userOptions) as ResolvedOptions
 
   resolved.replaceableProps = userOptions.replaceableProps?.flatMap(value => {

@@ -35,30 +35,34 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "unbuild",
-    "stub": "unbuild --stub"
+    "stub": "unbuild --stub",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "release": "bumpp package.json --commit \"release: v%s\" --push --all --tag"
   },
   "engines": {
     "node": ">=14"
   },
   "dependencies": {
-    "@iconify/utils": "^1.0.29",
-    "@veno-ui/utils": "^0.4.11",
-    "fast-glob": "^3.2.11",
-    "local-pkg": "^0.4.1",
-    "magic-string": "^0.26.1",
-    "svgo": "^2.8.0"
+    "@iconify/utils": "^2.1.5",
+    "@veno-ui/utils": "^0.4.24",
+    "fast-glob": "^3.2.12",
+    "local-pkg": "^0.4.3",
+    "magic-string": "^0.30.0",
+    "svgo": "^3.0.2"
   },
   "devDependencies": {
-    "@iconify/types": "^1.1.0",
+    "@iconify/types": "^2.0.0",
     "@types/debug": "^4.1.7",
-    "@types/minimatch": "^3.0.5",
-    "@types/svgo": "^2.6.2",
-    "unbuild": "^0.7.0",
-    "vite": "^2.8.6",
-    "vue": "^3.2.31"
+    "@types/minimatch": "^5.1.2",
+    "@types/node": "^18.15.11",
+    "bumpp": "^9.1.0",
+    "conventional-changelog-cli": "^2.2.2",
+    "unbuild": "^1.2.1",
+    "vite": "^4.2.1",
+    "vue": "^3.2.47"
   },
   "peerDependencies": {
-    "vite": "^2.4.0"
+    "vite": "^2.5.0 || ^3.0.0-0 || ^4.0.0"
   },
   "publishConfig": {
     "access": "public"

@@ -1,7 +1,7 @@
 // Utils
 import fg from 'fast-glob'
-import { promises as fsp } from 'fs'
-import { basename, extname, relative } from 'path'
+import { promises as fsp } from 'node:fs'
+import { basename, extname, relative } from 'node:path'
 import { createFilter } from '@veno-ui/utils'
 import { resolveOptions } from './options'
 import { VIRTUAL_ID_RE } from './constants'
@@ -20,10 +20,10 @@ export default function iconsPlugin (userOptions?: Options): PluginOption {
 
   return {
     name: 'vite-plugin-iconify',
-    resolveId (id) {
+    resolveId(id) {
       return VIRTUAL_ID_RE.test(id) ? id : null
     },
-    async load (id) {
+    async load(id) {
       const matched = id.match(VIRTUAL_ID_RE)
       if (!matched) return
       if (matched[1]) {
@@ -53,7 +53,7 @@ export default function iconsPlugin (userOptions?: Options): PluginOption {
         }
       }
     },
-    async transform (source, id) {
+    async transform(source, id) {
       try {
         if (/\.svg(\?component)?$/.test(id)) {
           return await transformIcon(await fsp.readFile(id, 'utf-8'), id, ctx)

@@ -2,7 +2,7 @@
 import MagicString from 'magic-string'
 import { toSnakeCase, toKebabCase, toPascalCase } from '@veno-ui/utils'
 import { DISABLE_COMMENT, VIRTUAL_ID } from './constants'
-import { relative } from 'path'
+import { relative } from 'node:path'
 import { importModule } from 'local-pkg'
 import { optimize } from 'svgo'
 import { hasCollection } from './collections'
@@ -10,7 +10,7 @@ import { hasCollection } from './collections'
 // Types
 import type { ResolvedOptions } from './types'
 
-export async function transformComponent (source: string, id: string, ctx: ResolvedOptions) {
+export async function transformComponent(source: string, id: string, ctx: ResolvedOptions) {
   let no = -1
   const s = new MagicString(source)
   for (const { component, props } of ctx.replaceableProps) {
@@ -52,16 +52,14 @@ export async function transformComponent (source: string, id: string, ctx: Resol
  * @param id icon id
  * @param ctx
  */
-export async function transformIcon (source: string, id: string, ctx: ResolvedOptions) {
+export async function transformIcon(source: string, id: string, ctx: ResolvedOptions) {
   // optimize svg
   const optimized = optimize(source, ctx.svgoOptions)
-  const { error } = optimized
-  if (error) throw new Error(`Optimize SVG error: ${ error }`)
   // compile svg to vue3 template
   const kebab = toKebabCase(relative(ctx.root, id).replace(/\//g, '-'))
   const { compileTemplate } = await importModule('@vue/compiler-sfc')
   let { code } = compileTemplate({
-    source: (optimized as any).data as string,
+    source: optimized.data,
     id: kebab,
     filename: `${ kebab }.vue`,
   })
